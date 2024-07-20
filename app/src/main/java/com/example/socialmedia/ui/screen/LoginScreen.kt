@@ -20,19 +20,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.socialmedia.MyApplication
-import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    onLoginButtonClicked: () -> Unit,
+    onLoginButtonClicked: (Any?) -> Unit,
     loginViewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory((LocalContext.current.applicationContext as MyApplication).repository)
     )
 ) {
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    var showError by rememberSaveable { mutableStateOf(false) }
+    var errorMessage by rememberSaveable { mutableStateOf("") }
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -63,11 +62,11 @@ fun LoginScreen(
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 
-            // Tampilkan Error Jika Field Kosong
-            if (showError) {
+            // Display error message if any
+            if (errorMessage.isNotEmpty()) {
                 Text(
-                    text = "Username and Password cannot be empty",
-                    color = Color.Red,
+                    text = errorMessage,
+                    color = androidx.compose.ui.graphics.Color.Red,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
@@ -76,10 +75,18 @@ fun LoginScreen(
             Button(
                 onClick = {
                     if (username.isNotEmpty() && password.isNotEmpty()) {
-                        loginViewModel.insertUser(username, password)
-                        onLoginButtonClicked()
+                        loginViewModel.getUserByUsername(username) { user ->
+                            if (user == null) {
+                                errorMessage = "Username Tidak Terdaftar"
+                                //loginViewModel.insertUser(username, password)
+                                //onLoginButtonClicked(username)
+                            } else {
+//                                errorMessage = "Username already exists. Please use a different username."
+                                onLoginButtonClicked(username) // If user exists, pass the username to MainScreen
+                            }
+                        }
                     } else {
-                        showError = true
+                        errorMessage = "Username and password cannot be empty."
                     }
                 }
             ) {
@@ -89,7 +96,7 @@ fun LoginScreen(
     }
 }
 
-// Preview function
+// untuk Preview nya
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {

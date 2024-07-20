@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.socialmedia.R
@@ -36,4 +37,10 @@ fun StoryView(story: Story) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StoryViewPreview() {
+    StoryView(story = MockData.stories[0]) // Assuming MockData.stories is not empty
 }

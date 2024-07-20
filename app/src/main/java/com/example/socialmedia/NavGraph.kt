@@ -38,9 +38,11 @@ fun NavGraph(
             navController = navController,
             startDestination = startDestination
         ) {
-            composable("home") {
+            composable("home/{username}",
+                arguments = listOf(navArgument("username") { type = NavType.StringType })
+            ) { entry ->
                 fullScreen = false
-                HomeScreen(navController)
+                HomeScreen(navController, entry.arguments?.getString("username"))
             }
             composable("search") {
                 fullScreen = false
@@ -69,8 +71,7 @@ fun NavGraph(
             composable("loginscreen") {
                 fullScreen = true
                 LoginScreen(
-                    onLoginButtonClicked = {
-                        navController.navigate("home") {
+                    onLoginButtonClicked = { username -> navController.navigate("home/$username") {
                             popUpTo("loginscreen") { inclusive = true }
                         }
                     }
@@ -86,3 +87,4 @@ fun NavGraph(
         }
     }
 }
+
