@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,12 +17,14 @@ import androidx.navigation.navArgument
 import com.example.socialmedia.ui.components.BottomBarView
 import com.example.socialmedia.ui.components.TopAppView
 import com.example.socialmedia.ui.screen.*
+import com.example.socialmedia.ui.screen.SharedViewModel
 
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
     startDestination: String = "loginscreen",
-    navController: NavHostController
+    navController: NavHostController,
+    sharedViewModel: SharedViewModel = viewModel()
 ) {
     var fullScreen by remember { mutableStateOf(false) }
 
@@ -38,15 +41,13 @@ fun NavGraph(
             navController = navController,
             startDestination = startDestination
         ) {
-            composable("home/{username}",
-                arguments = listOf(navArgument("username") { type = NavType.StringType })
-            ) { entry ->
+            composable("home") {
                 fullScreen = false
-                HomeScreen(navController, entry.arguments?.getString("username"))
+                HomeScreen(navController, sharedViewModel)
             }
             composable("search") {
                 fullScreen = false
-                SearchScreen()
+                SearchScreen(sharedViewModel)
             }
             composable("add") {
                 fullScreen = false
@@ -58,22 +59,29 @@ fun NavGraph(
             }
             composable("profile") {
                 fullScreen = false
-                ProfileScreen()
+                ProfileScreen(sharedViewModel)
             }
             composable("registerScreen") {
                 fullScreen = true
                 RegistrationScreen(
                     onRegisterButtonClicked = {
-                        navController.popBackStack()
+                        navController.navigate("loginscreen") {
+                            popUpTo("registerScreen") { inclusive = true }
+                        }
                     }
                 )
             }
             composable("loginscreen") {
                 fullScreen = true
                 LoginScreen(
-                    onLoginButtonClicked = { username -> navController.navigate("home/$username") {
+                    onLoginButtonClicked = { username ->
+                        sharedViewModel.setUsername(username)
+                        navController.navigate("home") {
                             popUpTo("loginscreen") { inclusive = true }
                         }
+                    },
+                    onRegisterButtonClicked = {
+                        navController.navigate("registerScreen")
                     }
                 )
             }
@@ -87,4 +95,3 @@ fun NavGraph(
         }
     }
 }
-

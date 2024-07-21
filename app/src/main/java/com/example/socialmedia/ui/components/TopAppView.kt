@@ -72,11 +72,11 @@ fun TopAppView(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(onClick = { navController.navigate("loginscreen") }) {
-                Text(text = "Login")
+                Text(text = "LogOut")
             }
-            TextButton(onClick = { navController.navigate("registerScreen") }) {
-                Text(text = "Register")
-            }
+//            TextButton(onClick = { navController.navigate("registerScreen") }) {
+//                Text(text = "Register")
+//            }
 
 
         }

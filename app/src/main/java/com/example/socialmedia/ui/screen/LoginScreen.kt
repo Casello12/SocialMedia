@@ -1,7 +1,9 @@
 package com.example.socialmedia.ui.screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -24,7 +26,8 @@ import com.example.socialmedia.MyApplication
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    onLoginButtonClicked: (Any?) -> Unit,
+    onLoginButtonClicked: (String) -> Unit,
+    onRegisterButtonClicked: () -> Unit,
     loginViewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory((LocalContext.current.applicationContext as MyApplication).repository)
     )
@@ -71,26 +74,34 @@ fun LoginScreen(
                 )
             }
 
-            // Login button
-            Button(
-                onClick = {
-                    if (username.isNotEmpty() && password.isNotEmpty()) {
-                        loginViewModel.getUserByUsername(username) { user ->
-                            if (user == null) {
-                                errorMessage = "Username Tidak Terdaftar"
-                                //loginViewModel.insertUser(username, password)
-                                //onLoginButtonClicked(username)
-                            } else {
-//                                errorMessage = "Username already exists. Please use a different username."
-                                onLoginButtonClicked(username) // If user exists, pass the username to MainScreen
-                            }
-                        }
-                    } else {
-                        errorMessage = "Username and password cannot be empty."
-                    }
-                }
+            // Row for Login and Register buttons
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(text = "Login")
+                Button(
+                    onClick = {
+                        if (username.isNotEmpty() && password.isNotEmpty()) {
+                            loginViewModel.getUserByUsername(username) { user ->
+                                if (user == null) {
+                                    errorMessage = "Username Tidak Terdaftar"
+                                } else {
+                                    onLoginButtonClicked(username) // If user exists, pass the username to MainScreen
+                                }
+                            }
+                        } else {
+                            errorMessage = "Username and password Tidak Boleh Kosong."
+                        }
+                    }
+                ) {
+                    Text(text = "Login")
+                }
+                Button(
+                    onClick = {
+                        onRegisterButtonClicked()
+                    }
+                ) {
+                    Text(text = "Register")
+                }
             }
         }
     }
@@ -100,5 +111,5 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(onLoginButtonClicked = {})
+    LoginScreen(onLoginButtonClicked = {}, onRegisterButtonClicked = {})
 }
