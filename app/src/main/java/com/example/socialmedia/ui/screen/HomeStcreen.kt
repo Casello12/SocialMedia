@@ -9,12 +9,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import com.example.socialmedia.data.MockData
 import com.example.socialmedia.ui.components.PostsView
 
 @Composable
-fun HomeScreen(navController: NavHostController, sharedViewModel: SharedViewModel) {
+fun HomeScreen(sharedViewModel: SharedViewModel) {
     val username by sharedViewModel.username.observeAsState()
     Column(
         modifier = Modifier.fillMaxSize(),

@@ -27,3 +27,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+//Kelompok 2
+// Anggota kelompok :
+// Beben Prihartono
+// Dimas A Anindyojati
+// Rifaldi Hafidz

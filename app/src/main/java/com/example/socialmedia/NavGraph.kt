@@ -21,7 +21,6 @@ import com.example.socialmedia.ui.screen.SharedViewModel
 
 @Composable
 fun NavGraph(
-    modifier: Modifier = Modifier,
     startDestination: String = "loginscreen",
     navController: NavHostController,
     sharedViewModel: SharedViewModel = viewModel()
@@ -43,7 +42,7 @@ fun NavGraph(
         ) {
             composable("home") {
                 fullScreen = false
-                HomeScreen(navController, sharedViewModel)
+                HomeScreen(sharedViewModel)
             }
             composable("search") {
                 fullScreen = false
