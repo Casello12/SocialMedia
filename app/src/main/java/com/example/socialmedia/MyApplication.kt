@@ -8,5 +8,5 @@ import com.example.socialmedia.mydata.PostRepository
 class MyApplication : Application() {
     val database by lazy { AppDatabase.getDatabase(this) }
     val repository by lazy { UserRepository(database.userDao()) }
-    val post by lazy { PostRepository(database.postDao()) }
+    val postRepository by lazy { PostRepository(database.postDao()) }
 }

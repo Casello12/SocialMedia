@@ -78,4 +78,8 @@ dependencies {
 
     // Add ViewModel support for Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 }

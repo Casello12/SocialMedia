@@ -1,13 +1,12 @@
+// AddPostScreen.kt
 package com.example.socialmedia.ui.screen
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -19,11 +18,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.socialmedia.MyApplication
 import com.example.socialmedia.ui.viewmodel.PostViewModel
 import com.example.socialmedia.ui.viewmodel.PostViewModelFactory
 
@@ -32,56 +31,47 @@ fun AddPostScreen(sharedViewModel: SharedViewModel = viewModel()) {
 
     val username by sharedViewModel.username.observeAsState()
     val context = LocalContext.current
-    val postViewModel: PostViewModel = viewModel(factory = PostViewModelFactory(context.applicationContext))
+    val app = context.applicationContext as MyApplication
+    val postViewModel: PostViewModel = viewModel(factory = PostViewModelFactory(app.postRepository))
 
     var content by rememberSaveable { mutableStateOf("") }
-    val configuration = LocalConfiguration.current
-    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = if (isLandscape) Alignment.Center else Alignment.TopStart
+        contentAlignment = Alignment.TopStart
     ) {
-        LazyColumn(
+        Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
+            modifier = Modifier.padding(16.dp)
         ) {
-            item {
+            Text(
+                text = "Add Post",
+                fontSize = 24.sp,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            username?.let {
                 Text(
-                    text = "Add Post",
-                    fontSize = 24.sp,
+                    text = "Username: $it",
+                    fontSize = 18.sp,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
+            }
+            OutlinedTextField(
+                value = content,
+                onValueChange = { content = it },
+                label = { Text("Post Content") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(bottom = 16.dp)
+            )
+            Button(onClick = {
                 username?.let {
-                    Text(
-                        text = "Username: $it",
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
+                    postViewModel.insertPost(it, content)
+                    content = ""
                 }
-                OutlinedTextField(
-                    value = content,
-                    onValueChange = { content = it },
-                    label = { Text("Post Content") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp)
-                        .padding(bottom = 16.dp)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        username?.let {
-                            postViewModel.insertPost(it, content)
-                            content = ""
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Submit")
-                }
+            }) {
+                Text(text = "Submit")
             }
         }
     }

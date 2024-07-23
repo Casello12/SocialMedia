@@ -54,7 +54,7 @@ fun NavGraph(
             }
             composable("activities") {
                 fullScreen = false
-                ActivitiesScreen()
+                ActivitiesScreen(sharedViewModel)
             }
             composable("profile") {
                 fullScreen = false
