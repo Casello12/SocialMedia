@@ -81,9 +81,9 @@ fun LoginScreen(
                 Button(
                     onClick = {
                         if (username.isNotEmpty() && password.isNotEmpty()) {
-                            loginViewModel.getUserByUsername(username) { user ->
+                            loginViewModel.getUser(username, password) { user ->
                                 if (user == null) {
-                                    errorMessage = "Username Tidak Terdaftar"
+                                    errorMessage = "Username Atau Password Salah"
                                 } else {
                                     onLoginButtonClicked(username) // If user exists, pass the username to MainScreen
                                 }
