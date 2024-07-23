@@ -50,15 +50,11 @@ fun HomeScreen(sharedViewModel: SharedViewModel = viewModel()) {
     ) {
         Text(text = "Selamat Datang, $username!")
         //PostsView(MockData.posts)
-        // Other content
     }
-    // Get the application context
+
     val context = LocalContext.current
-    // Access the PostRepository from MyApplication
     val app = context.applicationContext as MyApplication
-    // Create the PostViewModel using the factory
     val postViewModel: PostViewModel = viewModel(factory = PostViewModelFactory(app.postRepository))
-    // Observe posts from the ViewModel as LiveData
     val posts by postViewModel.allPosts.observeAsState(initial = emptyList())
 
     Box(
