@@ -54,11 +54,6 @@ fun HomeScreen(sharedViewModel: SharedViewModel = viewModel()) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text(
-            text = "Selamat Datang, $username!",
-            fontSize = 20.sp,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
         LazyColumn(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(16.dp),
