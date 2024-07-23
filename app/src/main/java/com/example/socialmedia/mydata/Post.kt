@@ -1,10 +1,10 @@
-package com.example.socialmedia.mydatapost
+package com.example.socialmedia.mydata
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "posts")
-data class PostEntity(
+@Entity(tableName = "post")
+data class Post(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val username: String,
     val content: String

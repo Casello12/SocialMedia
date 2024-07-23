@@ -1,18 +1,22 @@
 package com.example.socialmedia.ui.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.socialmedia.mydatapost.AppDatabase
-import com.example.socialmedia.mydatapost.PostEntity
+import com.example.socialmedia.mydata.AppDatabase
+import com.example.socialmedia.mydata.Post
+import com.example.socialmedia.mydata.PostRepository
 import kotlinx.coroutines.launch
 
-class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val postDao = AppDatabase.getDatabase(application).postDao()
+class PostViewModel(private val repository: PostRepository) : ViewModel() {
+
+    val allPosts = repository.allPosts
 
     fun insertPost(username: String, content: String) {
+        val post = Post(username = username, content = content)
         viewModelScope.launch {
-            postDao.insert(PostEntity(username = username, content = content))
+            repository.insertPost(post)
         }
     }
 }
