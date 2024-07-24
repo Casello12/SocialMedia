@@ -13,4 +13,7 @@ interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPost(post: Post)
+
+    @Query("SELECT content FROM post WHERE id = :postId")
+    suspend fun getPostContentById(postId: Int): String?
 }

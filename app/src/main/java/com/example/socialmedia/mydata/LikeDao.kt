@@ -1,5 +1,6 @@
 package com.example.socialmedia.mydata
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -18,4 +19,14 @@ interface LikeDao {
 
     @Query("SELECT * FROM likes WHERE postId = :postId")
     suspend fun getLikeByPostId(postId: Int): List<Like>
+
+    @Query("SELECT * FROM likes")
+    fun getAllLikes(): LiveData<List<Like>>
+
+    @Query("""
+        SELECT l.postId, p.content, l.username
+        FROM likes l
+        INNER JOIN post p ON l.postId = p.id
+    """)
+    fun getLikesWithPostContent(): LiveData<List<LikeWithContent>>
 }
