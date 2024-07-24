@@ -53,7 +53,7 @@ fun NavGraph(
             }
             composable("add") {
                 fullScreen = false
-                AddPostScreen(sharedViewModel)
+                AddPostScreen(sharedViewModel, navController)
             }
             composable("activities") {
                 fullScreen = false
