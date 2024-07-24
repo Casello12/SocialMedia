@@ -40,7 +40,7 @@ fun RegistrationScreen(
     // Handle showing the dialog
     if (showDialog) {
         AlertDialog(
-            onDismissRequest = { /* No action needed */ },
+            onDismissRequest = { },
             title = { Text("Info") },
             text = { Text(errorMessage) },
             confirmButton = {
