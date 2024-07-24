@@ -1,5 +1,6 @@
 package com.example.socialmedia.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -35,22 +37,32 @@ fun ActivitiesScreen(sharedViewModel: SharedViewModel = viewModel()) {
     val likeViewModel: LikeViewModel = viewModel(factory = LikeViewModelFactory(app.likeRepository))
     val likesWithContent by likeViewModel.allLikesWithContent.observeAsState(initial = emptyList())
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.LightGray, Color.LightGray)
+                )
+            )
     ) {
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(bottom = 16.dp) // Add padding to the bottom of the LazyColumn
-        ){
-            items(likesWithContent.size) { index ->
-                LikeRow(likeWithContent = likesWithContent[index])
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(bottom = 16.dp) // Add padding to the bottom of the LazyColumn
+            ) {
+                items(likesWithContent.size) { index ->
+                    LikeRow(likeWithContent = likesWithContent[index])
+                }
             }
         }
-    }
 
+    }
 }
 
 @Composable
