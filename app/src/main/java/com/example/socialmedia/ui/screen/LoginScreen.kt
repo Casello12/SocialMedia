@@ -1,16 +1,21 @@
 package com.example.socialmedia.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +23,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -45,17 +53,30 @@ fun LoginScreen(
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Blue, Color.Magenta)
+                )
+            )
     ) {
+        // Use `Modifier.padding` to ensure there is padding around the content
         Column(
-            modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White)
+                .padding(16.dp)
+                .align(Alignment.Center)
+                .wrapContentSize() // Ensures that the content sizes itself correctly
         ) {
-
             Text(
-                text = "Login",
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                text = "Social Media Login",
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp),
                 fontSize = 21.sp
             )
 
@@ -64,7 +85,9 @@ fun LoginScreen(
                 value = username,
                 onValueChange = { username = it },
                 label = { Text("Username") },
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             )
             OutlinedTextField(
                 value = password,
@@ -81,7 +104,9 @@ fun LoginScreen(
                         Icon(painter = eyeIcon, contentDescription = if (passwordVisible) "Hide password" else "Show password")
                     }
                 },
-                modifier = Modifier.padding(bottom = 32.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 32.dp)
             )
 
             // Display error message if any
@@ -95,7 +120,8 @@ fun LoginScreen(
 
             // Row for Login and Register buttons
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Button(
                     onClick = {
@@ -110,14 +136,17 @@ fun LoginScreen(
                         } else {
                             errorMessage = "Username and password Tidak Boleh Kosong."
                         }
-                    }
+                    },
+                    modifier = Modifier.weight(1f) // Button takes up available width equally
                 ) {
                     Text(text = "Login")
                 }
-                Button(
+
+                TextButton(
                     onClick = {
                         onRegisterButtonClicked()
-                    }
+                    },
+                    modifier = Modifier.weight(1f) // Button takes up available width equally
                 ) {
                     Text(text = "Register")
                 }
@@ -132,3 +161,4 @@ fun LoginScreen(
 fun LoginScreenPreview() {
     LoginScreen(onLoginButtonClicked = {}, onRegisterButtonClicked = {})
 }
+
