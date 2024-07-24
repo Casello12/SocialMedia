@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,6 +34,29 @@ fun RegistrationScreen(
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+    var isRegistrationSuccessful by remember { mutableStateOf(false) }
+
+    // Handle showing the dialog
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { /* No action needed */ },
+            title = { Text("Info") },
+            text = { Text(errorMessage) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDialog = false
+                        if (isRegistrationSuccessful) {
+                            onRegisterButtonClicked()
+                        }
+                    }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -78,13 +104,18 @@ fun RegistrationScreen(
                             if (user == null) {
                                 loginViewModel.insertUser(username, password)
                                 errorMessage = "Berhasil Register Username"
-                                onRegisterButtonClicked()
+                                showDialog = true
+                                isRegistrationSuccessful = true
                             } else {
                                 errorMessage = "nama username sudah ada"
+                                showDialog = true
+                                isRegistrationSuccessful = false
                             }
                         }
                     } else {
                         errorMessage = "Username and password Tidak Boleh Kosong."
+                        isRegistrationSuccessful = false
+                        showDialog = true
                     }
                 }
             ) {
