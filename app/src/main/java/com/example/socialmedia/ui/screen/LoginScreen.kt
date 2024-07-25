@@ -89,8 +89,8 @@ fun LoginScreen(
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
-                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
+                label = { Text("Username", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)) },
+                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -98,8 +98,8 @@ fun LoginScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
-                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
+                label = { Text("Password", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)) },
+                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val eyeIcon: Painter = if (passwordVisible) {

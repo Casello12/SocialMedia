@@ -34,7 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.example.socialmedia.MyApplication
 import com.example.socialmedia.R
 import com.example.socialmedia.ui.viewmodel.UserViewModel
@@ -48,15 +50,14 @@ fun ProfileScreen(
     ) // Get instance of UserViewModel
 ) {
     val username by sharedViewModel.username.observeAsState()
-    val imageUri by sharedViewModel.imageUri.observeAsState()
+    val user by userViewModel.getUserByUsername(username ?: "").observeAsState()
     var newPassword by remember { mutableStateOf("") }
-    var newImageUri by rememberSaveable { mutableStateOf<String?>(imageUri) }
+    var newImageUri by rememberSaveable { mutableStateOf(user?.imageUri) }
 
     var showAlert by remember { mutableStateOf(false) }
     var alertMessage by remember { mutableStateOf("") }
     var showSuccessDialog by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -86,12 +87,25 @@ fun ProfileScreen(
             ) {
                 if (newImageUri != null) {
                     Image(
-                        painter = rememberImagePainter(
-                            data = newImageUri,
-                            builder = {
-                                placeholder(R.drawable.placeholder_user) // assuming you have a placeholder drawable
-                                error(R.drawable.error) // assuming you have an error drawable
-                            }),
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(LocalContext.current).data(newImageUri)
+                                .apply {
+                                    placeholder(R.drawable.placeholder_user)
+                                    error(R.drawable.error)
+                                }.build()
+                        ),
+                        contentDescription = "Profile Image",
+                        modifier = Modifier.size(128.dp)
+                    )
+                } else if (user?.imageUri != null) {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(LocalContext.current).data(user?.imageUri)
+                                .apply {
+                                    placeholder(R.drawable.placeholder_user)
+                                    error(R.drawable.error)
+                                }.build()
+                        ),
                         contentDescription = "Profile Image",
                         modifier = Modifier.size(128.dp)
                     )

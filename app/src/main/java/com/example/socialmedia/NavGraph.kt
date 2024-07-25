@@ -20,6 +20,7 @@ import com.example.socialmedia.ui.components.BottomBarView
 import com.example.socialmedia.ui.components.TopAppView
 import com.example.socialmedia.ui.screen.*
 import com.example.socialmedia.ui.screen.SharedViewModel
+import com.example.socialmedia.ui.utils.NavigationItem
 
 @Composable
 fun NavGraph(
@@ -46,7 +47,7 @@ fun NavGraph(
         ) {
             composable("home") {
                 fullScreen = false
-                HomeScreen(sharedViewModel)
+                HomeScreen(navController, sharedViewModel)
             }
             composable("search") {
                 fullScreen = false
@@ -63,6 +64,14 @@ fun NavGraph(
             composable("profile") {
                 fullScreen = false
                 ProfileScreen(sharedViewModel)
+            }
+            composable(
+                route = "profileotheruser/{username}",
+                arguments = listOf(navArgument("username") { type = NavType.StringType })
+            ) { entry ->
+                fullScreen = false
+                val profileUsername = entry.arguments?.getString("username")
+                ProfileScreenOtherUser(profileUsername ?: "", sharedViewModel)
             }
             composable("registerScreen") {
                 fullScreen = true
@@ -88,13 +97,7 @@ fun NavGraph(
                     }
                 )
             }
-            composable(
-                "showStory/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
-            ) { entry ->
-                fullScreen = true
-                ShowStoryScreen(entry.arguments?.getInt("id") ?: 0)
-            }
+
         }
     }
 }

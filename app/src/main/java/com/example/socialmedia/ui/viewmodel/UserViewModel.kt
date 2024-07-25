@@ -1,11 +1,22 @@
 package com.example.socialmedia.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.socialmedia.mydata.User
 import com.example.socialmedia.mydata.UserRepository
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val repository: UserRepository) : ViewModel() {
+
+
+    fun getUser(username: String, password: String): LiveData<User?> {
+        return repository.getUserByUsername(username)
+    }
+
+    fun getUserByUsername(username: String): LiveData<User?> {
+        return repository.getUserByUsername(username)
+    }
 
     fun updatePassword(username: String, password: String) {
         viewModelScope.launch {

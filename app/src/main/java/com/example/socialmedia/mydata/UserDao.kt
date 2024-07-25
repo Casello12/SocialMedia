@@ -8,14 +8,17 @@ import androidx.room.Query
 
 @Dao
 interface UserDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     suspend fun insertUser(user: User)
 
-    @Query("SELECT * FROM user WHERE username = :username AND password = :password")
+    @Query("SELECT * FROM user WHERE username = :username AND password = :password LIMIT 1")
     suspend fun getUser(username: String, password: String): User?
 
-    @Query("SELECT * FROM user WHERE username = :username")
-    suspend fun getUserByUsername(username: String): User?
+    @Query("SELECT * FROM user WHERE username = :username LIMIT 1")
+    fun getUserByUsername(username: String): LiveData<User?>
+
+    @Query("SELECT * FROM user WHERE username = :username LIMIT 1")
+    suspend fun getUserByUsernameSync(username: String): User?
 
     @Query("UPDATE user SET password = :password WHERE username = :username")
     suspend fun updatePassword(username: String, password: String)

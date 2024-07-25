@@ -1,14 +1,19 @@
 // AddPostScreen.kt
 package com.example.socialmedia.ui.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -25,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,6 +51,9 @@ fun AddPostScreen(sharedViewModel: SharedViewModel = viewModel(), navController:
     var content by rememberSaveable { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,48 +63,99 @@ fun AddPostScreen(sharedViewModel: SharedViewModel = viewModel(), navController:
                 )
             ),
         contentAlignment = Alignment.TopStart
-
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color.White)
-                .padding(16.dp)
-                .align(Alignment.TopStart)
-        ) {
-            Text(
-                text = "Add Post",
-                fontSize = 24.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            username?.let {
-                Text(
-                    text = "Username: $it",
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-            }
-            OutlinedTextField(
-                value = content,
-                onValueChange = { content = it },
-                label = { Text("Post Content") },
+        if (isLandscape) {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
-                    .padding(bottom = 16.dp)
-            )
-            Button(onClick = {
-                username?.let {
-                    postViewModel.insertPost(it, content)
-                    content = ""
-                    showDialog = true
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.White)
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Add Post",
+                        fontSize = 24.sp,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                    username?.let {
+                        Text(
+                            text = "Username: $it",
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                    }
+                    OutlinedTextField(
+                        value = content,
+                        onValueChange = { content = it },
+                        label = { Text("Post Content") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                            .padding(bottom = 16.dp)
+                    )
                 }
-            }) {
-                Text(text = "Submit")
+                Button(
+                    onClick = {
+                        username?.let {
+                            postViewModel.insertPost(it, content)
+                            content = ""
+                            showDialog = true
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(text = "Submit")
+                }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.White)
+                    .padding(16.dp)
+                    .align(Alignment.TopStart),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Add Post",
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                username?.let {
+                    Text(
+                        text = "Username: $it",
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
+                OutlinedTextField(
+                    value = content,
+                    onValueChange = { content = it },
+                    label = { Text("Post Content") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .padding(bottom = 16.dp)
+                )
+                Button(onClick = {
+                    username?.let {
+                        postViewModel.insertPost(it, content)
+                        content = ""
+                        showDialog = true
+                    }
+                }) {
+                    Text(text = "Submit")
+                }
             }
         }
 

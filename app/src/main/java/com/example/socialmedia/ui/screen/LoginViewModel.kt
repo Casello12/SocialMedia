@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collect
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     fun insertUser(username: String, password: String) {
         viewModelScope.launch {
-            val user = repository.getUserByUsername(username)
+            val user = repository.getUserByUsernameSync(username)
             if (user == null) {
                 repository.insertUser(User(username = username, password = password))
             }
@@ -27,8 +27,9 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun getUserByUsername(username: String, callback: (User?) -> Unit) {
         viewModelScope.launch {
-            val user = repository.getUserByUsername(username)
-            callback(user)
+            repository.getUserByUsername(username).observeForever { user ->
+                callback(user)
+            }
         }
     }
 }

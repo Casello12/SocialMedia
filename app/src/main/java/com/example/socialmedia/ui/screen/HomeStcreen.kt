@@ -3,6 +3,7 @@ package com.example.socialmedia.ui.screen
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.socialmedia.MyApplication
 import com.example.socialmedia.mydata.Post
 import com.example.socialmedia.ui.theme.RedColor
@@ -45,7 +47,7 @@ import com.example.socialmedia.ui.viewmodel.PostViewModel
 import com.example.socialmedia.ui.viewmodel.PostViewModelFactory
 
 @Composable
-fun HomeScreen(sharedViewModel: SharedViewModel = viewModel()) {
+fun HomeScreen(navController: NavController, sharedViewModel: SharedViewModel = viewModel()) {
     val username by sharedViewModel.username.observeAsState("")
     val context = LocalContext.current
     val app = context.applicationContext as MyApplication
@@ -75,7 +77,7 @@ fun HomeScreen(sharedViewModel: SharedViewModel = viewModel()) {
             ) {
                 items(posts.size) { index ->
                     username?.let {
-                        PostCard(post = posts[index], postViewModel = postViewModel, username = it)
+                        PostCard(post = posts[index], postViewModel = postViewModel, navController = navController, username = it)
                     }
                 }
             }
@@ -84,7 +86,7 @@ fun HomeScreen(sharedViewModel: SharedViewModel = viewModel()) {
 }
 
 @Composable
-fun PostCard(post: Post, postViewModel: PostViewModel, username: String) {
+fun PostCard(post: Post, postViewModel: PostViewModel, navController: NavController, username: String) {
     var liked by remember { mutableStateOf(false) }
     val context = LocalContext.current
     LaunchedEffect(post.id) {
@@ -107,7 +109,11 @@ fun PostCard(post: Post, postViewModel: PostViewModel, username: String) {
                 text = "username: " + post.username,
                 fontSize = 18.sp,
                 color = Color.Black,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .clickable {
+                        navController.navigate("profileotheruser/${post.username}")
+                    }
             )
             Text(
                 text = post.content,
