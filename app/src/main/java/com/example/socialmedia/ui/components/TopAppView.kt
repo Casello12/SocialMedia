@@ -46,22 +46,22 @@ fun TopAppView(navController: NavHostController, username: String?) {
             }
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp), // Add padding to separate rows
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween // Align items to the start and end
-        ) {
-            Text(
-                text = "Welcome, $username",
-                fontFamily = FontFamily.SansSerif,
-                fontSize = 21.sp
-            )
-
-            OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
-                Text(text = "LogOut")
-            }
-        }
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(top = 10.dp), // Add padding to separate rows
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.SpaceBetween // Align items to the start and end
+//        ) {
+//            Text(
+//                text = "Welcome, $username",
+//                fontFamily = FontFamily.SansSerif,
+//                fontSize = 21.sp
+//            )
+//
+//            OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
+//                Text(text = "LogOut")
+//            }
+//        }
     }
 }

@@ -16,9 +16,9 @@ import com.example.socialmedia.ui.utils.NavigationItem
 fun BottomBarView(navController: NavHostController) {
     val menu = listOf(
         NavigationItem.Home,
-        NavigationItem.Search,
-        NavigationItem.Add,
         NavigationItem.Activities,
+        NavigationItem.Add,
+        NavigationItem.Search,
         NavigationItem.Profile
     )
     var selectedRoute by remember { mutableStateOf("home") }

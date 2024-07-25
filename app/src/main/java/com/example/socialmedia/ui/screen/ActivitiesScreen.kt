@@ -16,9 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.socialmedia.MyApplication
 import com.example.socialmedia.mydata.Like
 import com.example.socialmedia.mydata.LikeWithContent
@@ -30,7 +32,7 @@ import com.example.socialmedia.ui.viewmodel.PostViewModel
 import com.example.socialmedia.ui.viewmodel.PostViewModelFactory
 
 @Composable
-fun ActivitiesScreen(sharedViewModel: SharedViewModel = viewModel()) {
+fun ActivitiesScreen(navController: NavController, sharedViewModel: SharedViewModel = viewModel()) {
     val username by sharedViewModel.username.observeAsState()
     val context = LocalContext.current
     val app = context.applicationContext as MyApplication
@@ -46,16 +48,52 @@ fun ActivitiesScreen(sharedViewModel: SharedViewModel = viewModel()) {
                 )
             )
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
+
+
             LazyColumn(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(bottom = 16.dp) // Add padding to the bottom of the LazyColumn
             ) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp), // Add padding to separate rows
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween // Align items to the start and end
+                    ) {
+                        Text(
+                            text = "Welcome, $username",
+                            fontFamily = FontFamily.SansSerif,
+                            fontSize = 21.sp
+                        )
+
+                        OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
+                            Text(text = "LogOut")
+                        }
+                    }
+                }
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Like Page",
+                            fontSize = 24.sp,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                    }
+
+                }
                 items(likesWithContent.size) { index ->
                     LikeRow(likeWithContent = likesWithContent[index])
                 }

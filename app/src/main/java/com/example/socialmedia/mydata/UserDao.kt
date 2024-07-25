@@ -25,4 +25,7 @@ interface UserDao {
 
     @Query("UPDATE user SET imageUri = :imageUri WHERE username = :username")
     suspend fun updateImageUri(username: String, imageUri: String)
+
+    @Query("SELECT * FROM user WHERE username = :username")
+    fun getUserIdByUsername(username: String): LiveData<User?>
 }

@@ -94,14 +94,15 @@ fun RegistrationScreen(
                 text = "Register",
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 fontSize = 21.sp,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold
             )
             // Input field for username
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
-                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
+                label = { Text("Username", style = TextStyle(fontSize = 16.sp, color = Color.Black)) },
+                textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -109,8 +110,8 @@ fun RegistrationScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
-                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
+                label = { Text("Password", style = TextStyle(fontSize = 16.sp, color = Color.Black)) },
+                textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 

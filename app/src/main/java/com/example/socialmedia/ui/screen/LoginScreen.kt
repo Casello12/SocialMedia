@@ -46,6 +46,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     onLoginButtonClicked: (String) -> Unit,
     onRegisterButtonClicked: () -> Unit,
+    sharedViewModel: SharedViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory((LocalContext.current.applicationContext as MyApplication).repository)
     )
@@ -89,8 +90,8 @@ fun LoginScreen(
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)) },
-                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black),
+                label = { Text("Username", style = TextStyle(fontSize = 16.sp, color = Color.Black)) },
+                textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -98,8 +99,8 @@ fun LoginScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)) },
-                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black),
+                label = { Text("Password", style = TextStyle(fontSize = 16.sp, color = Color.Black)) },
+                textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val eyeIcon: Painter = if (passwordVisible) {
@@ -137,6 +138,8 @@ fun LoginScreen(
                                 if (user == null) {
                                     errorMessage = "Username Atau Password Salah"
                                 } else {
+                                    sharedViewModel.setUsername(username)
+                                    sharedViewModel.setUserId(user.id)
                                     onLoginButtonClicked(username) // If user exists, pass the username to MainScreen
                                 }
                             }

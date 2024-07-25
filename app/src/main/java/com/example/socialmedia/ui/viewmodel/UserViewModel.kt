@@ -1,6 +1,8 @@
 package com.example.socialmedia.ui.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialmedia.mydata.User
@@ -29,4 +31,16 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
             repository.updateImageUri(username, imageUri)
         }
     }
+
+    fun getUserIdByUsername(username: String): LiveData<Int?> {
+        val result = MediatorLiveData<Int?>()
+        val userLiveData = repository.getUserIdByUsername(username)
+
+        result.addSource(userLiveData) { user ->
+            result.value = user?.id
+        }
+
+        return result
+    }
+
 }

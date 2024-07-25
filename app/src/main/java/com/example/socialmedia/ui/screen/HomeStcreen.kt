@@ -24,6 +24,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,10 +33,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -75,6 +78,39 @@ fun HomeScreen(navController: NavController, sharedViewModel: SharedViewModel = 
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(bottom = 16.dp)
             ) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp), // Add padding to separate rows
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween // Align items to the start and end
+                    ) {
+                        Text(
+                            text = "Welcome, $username",
+                            fontFamily = FontFamily.SansSerif,
+                            fontSize = 21.sp
+                        )
+
+                        OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
+                            Text(text = "LogOut")
+                        }
+                    }
+                }
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Post Page",
+                            fontSize = 24.sp,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                    }
+
+                }
                 items(posts.size) { index ->
                     username?.let {
                         PostCard(post = posts[index], postViewModel = postViewModel, navController = navController, username = it)
@@ -105,16 +141,18 @@ fun PostCard(post: Post, postViewModel: PostViewModel, navController: NavControl
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Text(
-                text = "username: " + post.username,
-                fontSize = 18.sp,
-                color = Color.Black,
-                modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .clickable {
-                        navController.navigate("profileotheruser/${post.username}")
-                    }
-            )
+            OutlinedButton(
+                onClick = {
+                    navController.navigate("profileotheruser/${post.username}")
+                },
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Text(
+                    text = "username: " + post.username,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+            }
             Text(
                 text = post.content,
                 fontSize = 16.sp,
