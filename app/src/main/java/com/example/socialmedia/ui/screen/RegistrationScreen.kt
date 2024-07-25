@@ -44,6 +44,7 @@ fun RegistrationScreen(
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf("") }
+    var successMessage by rememberSaveable { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
     var isRegistrationSuccessful by remember { mutableStateOf(false) }
 
@@ -52,12 +53,12 @@ fun RegistrationScreen(
         AlertDialog(
             onDismissRequest = { },
             title = { Text("Info") },
-            text = { Text(errorMessage) },
+            text = { Text(if (isRegistrationSuccessful) successMessage else errorMessage) },
             confirmButton = {
                 TextButton(
                     onClick = {
                         showDialog = false
-                        if (isRegistrationSuccessful == true) {
+                        if (isRegistrationSuccessful) {
                             onRegisterButtonClicked()
                         }
                     }
@@ -115,15 +116,6 @@ fun RegistrationScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Display error message if any
-            if (errorMessage.isNotEmpty()) {
-                Text(
-                    text = errorMessage,
-                    color = androidx.compose.ui.graphics.Color.Red,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-            }
-
             // Register button
             Button(
                 onClick = {
@@ -131,11 +123,11 @@ fun RegistrationScreen(
                         loginViewModel.getUserByUsername(username) { user ->
                             if (user == null) {
                                 loginViewModel.insertUser(username, password)
-                                errorMessage = "Success Register Username"
+                                successMessage = "Success Register Username"
                                 showDialog = true
                                 isRegistrationSuccessful = true
                             } else {
-                                errorMessage = "username already exits"
+                                errorMessage = "Username already exists"
                                 showDialog = true
                                 isRegistrationSuccessful = false
                             }

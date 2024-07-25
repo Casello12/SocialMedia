@@ -14,7 +14,7 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE username = :username AND password = :password LIMIT 1")
     suspend fun getUser(username: String, password: String): User?
 
-    @Query("SELECT * FROM user WHERE username = :username LIMIT 1")
+    @Query("SELECT * FROM user WHERE username = :username")
     fun getUserByUsername(username: String): LiveData<User?>
 
     @Query("SELECT * FROM user WHERE username = :username LIMIT 1")

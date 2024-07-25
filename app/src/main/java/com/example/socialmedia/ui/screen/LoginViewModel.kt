@@ -27,9 +27,8 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun getUserByUsername(username: String, callback: (User?) -> Unit) {
         viewModelScope.launch {
-            repository.getUserByUsername(username).observeForever { user ->
-                callback(user)
-            }
+            val user = repository.getUserByUsername(username).value
+            callback(user)
         }
     }
 }
