@@ -1,6 +1,7 @@
 package com.example.socialmedia.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -81,6 +84,7 @@ fun RegistrationScreen(
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color.White)
+                .border(width = 2.dp, color = Color.Gray, shape = RoundedCornerShape(16.dp))
                 .padding(16.dp)
                 .align(Alignment.Center)
                 .wrapContentSize(),
@@ -89,13 +93,15 @@ fun RegistrationScreen(
             Text(
                 text = "Register",
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                fontSize = 21.sp
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Bold
             )
             // Input field for username
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username") },
+                label = { Text("Username", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
+                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -103,7 +109,8 @@ fun RegistrationScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text("Password", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
+                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 

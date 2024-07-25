@@ -1,6 +1,7 @@
 package com.example.socialmedia.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,6 +71,7 @@ fun LoginScreen(
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color.White)
+                .border(width = 2.dp, color = Color.Gray, shape = RoundedCornerShape(16.dp))
                 .padding(16.dp)
                 .align(Alignment.Center)
                 .wrapContentSize() // Ensures that the content sizes itself correctly
@@ -77,14 +81,16 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp),
-                fontSize = 21.sp
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Bold
             )
 
             // Input fields for username and password
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username") },
+                label = { Text("Username", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
+                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -92,7 +98,8 @@ fun LoginScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text("Password", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) },
+                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val eyeIcon: Painter = if (passwordVisible) {
@@ -113,7 +120,7 @@ fun LoginScreen(
             if (errorMessage.isNotEmpty()) {
                 Text(
                     text = errorMessage,
-                    color = androidx.compose.ui.graphics.Color.Red,
+                    color = Color.Red,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }

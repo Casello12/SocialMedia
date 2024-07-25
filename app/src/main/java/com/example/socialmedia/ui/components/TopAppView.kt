@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -57,7 +59,7 @@ fun TopAppView(navController: NavHostController, username: String?) {
                 fontSize = 21.sp
             )
 
-            TextButton(onClick = { navController.navigate("loginscreen") }) {
+            OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
                 Text(text = "LogOut")
             }
         }

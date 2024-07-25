@@ -16,4 +16,10 @@ interface UserDao {
 
     @Query("SELECT * FROM user WHERE username = :username")
     suspend fun getUserByUsername(username: String): User?
+
+    @Query("UPDATE user SET password = :password WHERE username = :username")
+    suspend fun updatePassword(username: String, password: String)
+
+    @Query("UPDATE user SET imageUri = :imageUri WHERE username = :username")
+    suspend fun updateImageUri(username: String, imageUri: String)
 }

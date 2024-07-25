@@ -12,4 +12,12 @@ class UserRepository(private val userDao: UserDao) {
     suspend fun getUserByUsername(username: String): User? {
         return userDao.getUserByUsername(username)
     }
+
+    suspend fun updatePassword(username: String, password: String) {
+        userDao.updatePassword(username, password)
+    }
+
+    suspend fun updateImageUri(username: String, imageUri: String) {
+        userDao.updateImageUri(username, imageUri)
+    }
 }

@@ -16,4 +16,5 @@ class MyApplication : Application() {
         )
     }
     val likeRepository by lazy { LikeRepository(database.likeDao()) }
+    val userRepository by lazy { UserRepository(database.userDao()) }
 }
