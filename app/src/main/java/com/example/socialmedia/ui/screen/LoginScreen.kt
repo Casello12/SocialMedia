@@ -139,7 +139,6 @@ fun LoginScreen(
                                     errorMessage = "Username Atau Password Salah"
                                 } else {
                                     sharedViewModel.setUsername(username)
-                                    sharedViewModel.setUserId(user.id)
                                     onLoginButtonClicked(username) // If user exists, pass the username to MainScreen
                                 }
                             }

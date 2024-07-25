@@ -57,7 +57,7 @@ fun RegistrationScreen(
                 TextButton(
                     onClick = {
                         showDialog = false
-                        if (isRegistrationSuccessful) {
+                        if (isRegistrationSuccessful == true) {
                             onRegisterButtonClicked()
                         }
                     }
@@ -131,17 +131,17 @@ fun RegistrationScreen(
                         loginViewModel.getUserByUsername(username) { user ->
                             if (user == null) {
                                 loginViewModel.insertUser(username, password)
-                                errorMessage = "Berhasil Register Username"
+                                errorMessage = "Success Register Username"
                                 showDialog = true
                                 isRegistrationSuccessful = true
                             } else {
-                                errorMessage = "nama username sudah ada"
+                                errorMessage = "username already exits"
                                 showDialog = true
                                 isRegistrationSuccessful = false
                             }
                         }
                     } else {
-                        errorMessage = "Username and password Tidak Boleh Kosong."
+                        errorMessage = "Username and password Cannot Be empty"
                         isRegistrationSuccessful = false
                         showDialog = true
                     }

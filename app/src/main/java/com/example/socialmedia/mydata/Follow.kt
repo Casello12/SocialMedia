@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "follow")
 data class Follow(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val followerId: Int,
+    val userId: Int,
     val followeeId: Int,
     val timestamp: Long = System.currentTimeMillis()
 )
+

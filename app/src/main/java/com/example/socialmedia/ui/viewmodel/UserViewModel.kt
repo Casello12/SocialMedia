@@ -32,15 +32,11 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-    fun getUserIdByUsername(username: String): LiveData<Int?> {
-        val result = MediatorLiveData<Int?>()
-        val userLiveData = repository.getUserIdByUsername(username)
-
-        result.addSource(userLiveData) { user ->
-            result.value = user?.id
+    fun getUserIdByUsername(username: String, callback: (Int?) -> Unit) {
+        viewModelScope.launch {
+            val userId = repository.getUserIdByUsername(username)
+            callback(userId)
         }
-
-        return result
     }
 
 }

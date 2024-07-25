@@ -8,6 +8,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,9 +30,28 @@ fun ProfileScreenOtherUser(
         factory = FollowViewModelFactory((LocalContext.current.applicationContext as MyApplication).followRepository)
     )
 ) {
-    val currentUserId by sharedViewModel.userId.observeAsState(0)
+    val myUsername by sharedViewModel.username.observeAsState()
+    var userId by remember { mutableStateOf<Int?>(null) }
     val user by userViewModel.getUserByUsername(username).observeAsState()
-    var isFollowing by remember { mutableStateOf(false) } // This should be determined by your follow relationship logic
+    var isFollowing by remember { mutableStateOf(false) }
+
+    LaunchedEffect(myUsername) {
+        myUsername?.let {
+            userViewModel.getUserIdByUsername(it) { id ->
+                userId = id
+            }
+        }
+    }
+
+    LaunchedEffect(user) {
+        user?.let {
+            userId?.let { id ->
+                followViewModel.isFollowing(id, it.id) { following ->
+                    isFollowing = following
+                }
+            }
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -62,20 +82,19 @@ fun ProfileScreenOtherUser(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Button(
-                    onClick = {
-                        // Implement the follow/unfollow logic here
-                        isFollowing = !isFollowing
-                        if (isFollowing) {
-                            // Add follow relationship in the database
-                            followViewModel.insertFollow(currentUserId, it.id)
-                        } else {
-                            // Remove follow relationship in the database
-                            followViewModel.deleteFollow(currentUserId, it.id)
+                if (userId != it.id) {
+                    Button(
+                        onClick = {
+                            isFollowing = !isFollowing
+                            if (isFollowing) {
+                                followViewModel.insertFollow(userId ?: 0, it.id)
+                            } else {
+                                followViewModel.deleteFollow(userId ?: 0, it.id)
+                            }
                         }
+                    ) {
+                        Text(if (isFollowing) "Unfollow" else "Follow")
                     }
-                ) {
-                    Text(if (isFollowing) "Unfollow" else "Follow")
                 }
             } ?: Text("Loading...")
         }

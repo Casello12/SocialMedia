@@ -31,7 +31,7 @@ class UserRepository(private val userDao: UserDao) {
         userDao.updateImageUri(username, imageUri)
     }
 
-    fun getUserIdByUsername(username: String): LiveData<User?> {
+    suspend fun getUserIdByUsername(username: String): Int? {
         return userDao.getUserIdByUsername(username)
     }
 }

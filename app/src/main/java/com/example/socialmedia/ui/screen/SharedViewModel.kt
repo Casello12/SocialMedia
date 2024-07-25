@@ -6,23 +6,19 @@ import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
     private val _username = MutableLiveData<String?>()
-    val username: LiveData<String?> get() = _username
+    val username: LiveData<String?> = _username
 
-    private val _userId = MutableLiveData<Int>()
-    val userId: LiveData<Int> get() = _userId
+    private val _userId = MutableLiveData<Int?>()
+    val userId: LiveData<Int?> = _userId
 
     private val _imageUri = MutableLiveData<String?>()
     val imageUri: LiveData<String?> get() = _imageUri
 
-    fun setUsername(username: String?) {
+    fun setUsername(username: String) {
         _username.value = username
     }
 
-    fun setUserId(userId: Int) {
-        _userId.value = userId
-    }
-
-    fun setImageUri(uri: String?) {
+    fun setImageUri(uri: String) {
         _imageUri.value = uri
     }
 }

@@ -9,24 +9,24 @@ import kotlinx.coroutines.launch
 
 class FollowViewModel(private val repository: FollowRepository) : ViewModel() {
 
-    fun insertFollow(followerId: Int, followeeId: Int) {
+    fun insertFollow(userId: Int, followeeId: Int) {
         viewModelScope.launch {
-            repository.insertFollow(Follow(followerId = followerId, followeeId = followeeId))
+            repository.insertFollow(Follow(userId = userId, followeeId = followeeId))
         }
     }
 
-    fun deleteFollow(followerId: Int, followeeId: Int) {
+    fun deleteFollow(userId: Int, followeeId: Int) {
         viewModelScope.launch {
-            val follow = repository.getFollow(followerId, followeeId)
+            val follow = repository.getFollow(userId, followeeId)
             if (follow != null) {
                 repository.deleteFollow(follow)
             }
         }
     }
 
-    fun isFollowing(followerId: Int, followeeId: Int, callback: (Boolean) -> Unit) {
+    fun isFollowing(userId: Int, followeeId: Int, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            val isFollowing = repository.isFollowing(followerId, followeeId)
+            val isFollowing = repository.isFollowing(userId, followeeId)
             callback(isFollowing)
         }
     }

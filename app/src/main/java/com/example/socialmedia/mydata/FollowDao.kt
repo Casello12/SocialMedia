@@ -14,12 +14,15 @@ interface FollowDao {
     @Delete
     suspend fun deleteFollow(follow: Follow)
 
-    @Query("SELECT * FROM follow WHERE followerId = :followerId AND followeeId = :followeeId LIMIT 1")
-    suspend fun getFollow(followerId: Int, followeeId: Int): Follow?
+    @Query("SELECT * FROM follow WHERE userId = :userId AND followeeId = :followeeId LIMIT 1")
+    suspend fun getFollow(userId: Int, followeeId: Int): Follow?
 
-    @Query("SELECT * FROM follow WHERE followerId = :followerId")
-    suspend fun getFollowings(followerId: Int): List<Follow>
+    @Query("SELECT * FROM follow WHERE userId = :userId")
+    suspend fun getFollowings(userId: Int): List<Follow>
 
     @Query("SELECT * FROM follow WHERE followeeId = :followeeId")
     suspend fun getFollowers(followeeId: Int): List<Follow>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM follow WHERE userId = :userId AND followeeId = :followeeId LIMIT 1)")
+    suspend fun isFollowing(userId: Int, followeeId: Int): Boolean
 }
