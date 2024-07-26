@@ -51,16 +51,17 @@ fun DirectMessageScreen(
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
     ) {
-        Text(
-            text = "$myUsername Direct Messages to $usernameWith",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 14.dp)
-        )
 
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
+            item {
+                Text(
+                    text = "Direct Message with $usernameWith",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
             items(messages) { message ->
                 DirectMessageItem(message)
             }
