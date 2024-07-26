@@ -133,19 +133,22 @@ fun AddPostScreen(sharedViewModel: SharedViewModel = viewModel(), navController:
                 Text(
                     text = "Add Post",
                     fontSize = 24.sp,
+                    color = Color.Black,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 username?.let {
                     Text(
                         text = "Username: $it",
                         fontSize = 18.sp,
+                        color = Color.Black,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                 }
                 OutlinedTextField(
                     value = content,
                     onValueChange = { content = it },
-                    label = { Text("Post Content") },
+                    label = { Text("Post Content", style = TextStyle(fontSize = 16.sp, color = Color.Black)) },
+                    textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(150.dp)

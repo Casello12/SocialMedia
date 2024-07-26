@@ -72,7 +72,8 @@ fun ActivitiesScreen(navController: NavController, sharedViewModel: SharedViewMo
                         Text(
                             text = "Welcome, $username",
                             fontFamily = FontFamily.SansSerif,
-                            fontSize = 21.sp
+                            fontSize = 21.sp,
+                            color = Color.Black
                         )
 
                         OutlinedButton(onClick = { navController.navigate("loginscreen") }) {

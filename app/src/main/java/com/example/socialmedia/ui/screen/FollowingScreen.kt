@@ -1,5 +1,6 @@
 package com.example.socialmedia.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,8 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,7 +75,13 @@ fun FollowingScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.LightGray, Color.LightGray)
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
         if (followingUsers.isEmpty()) {
@@ -94,7 +103,8 @@ fun FollowingScreen(
                         Text(
                             text = "Welcome, $username",
                             fontFamily = FontFamily.SansSerif,
-                            fontSize = 21.sp
+                            fontSize = 21.sp,
+                            color = Color.Black
                         )
 
                         OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
