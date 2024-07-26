@@ -1,5 +1,6 @@
 package com.example.socialmedia.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -29,6 +30,10 @@ class FollowViewModel(private val repository: FollowRepository) : ViewModel() {
             val isFollowing = repository.isFollowing(userId, followeeId)
             callback(isFollowing)
         }
+    }
+
+    fun getFollowingsByUserId(userId: Int): LiveData<List<Follow>> {
+        return repository.getFollowingsByUserId(userId)
     }
 }
 

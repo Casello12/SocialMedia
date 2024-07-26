@@ -1,5 +1,6 @@
 package com.example.socialmedia.mydata
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -25,4 +26,7 @@ interface FollowDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM follow WHERE userId = :userId AND followeeId = :followeeId LIMIT 1)")
     suspend fun isFollowing(userId: Int, followeeId: Int): Boolean
+
+    @Query("SELECT * FROM follow WHERE userId = :userId")
+    fun getFollowingsByUserId(userId: Int): LiveData<List<Follow>>
 }

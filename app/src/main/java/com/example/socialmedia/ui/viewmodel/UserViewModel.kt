@@ -39,4 +39,11 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
+    fun getUsersByIds(userIds: List<Int>, callback: (List<User>) -> Unit) {
+        viewModelScope.launch {
+            val users = repository.getUsersByIds(userIds)
+            callback(users)
+        }
+    }
+
 }

@@ -49,9 +49,9 @@ fun NavGraph(
                 fullScreen = false
                 HomeScreen(navController, sharedViewModel)
             }
-            composable("search") {
+            composable("following") {
                 fullScreen = false
-                SearchScreen(sharedViewModel)
+                FollowingScreen(navController, sharedViewModel)
             }
             composable("add") {
                 fullScreen = false

@@ -12,10 +12,14 @@ class SharedViewModel : ViewModel() {
     val userId: LiveData<Int?> = _userId
 
     private val _imageUri = MutableLiveData<String?>()
-    val imageUri: LiveData<String?> get() = _imageUri
+    val imageUri: LiveData<String?> = _imageUri
 
     fun setUsername(username: String) {
         _username.value = username
+    }
+
+    fun setUserId(userId: Int) {
+        _userId.value = userId
     }
 
     fun setImageUri(uri: String) {

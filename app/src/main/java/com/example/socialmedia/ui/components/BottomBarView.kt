@@ -18,7 +18,7 @@ fun BottomBarView(navController: NavHostController) {
         NavigationItem.Home,
         NavigationItem.Activities,
         NavigationItem.Add,
-        NavigationItem.Search,
+        NavigationItem.Following,
         NavigationItem.Profile
     )
     var selectedRoute by remember { mutableStateOf("home") }

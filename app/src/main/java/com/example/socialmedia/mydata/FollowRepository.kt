@@ -1,5 +1,7 @@
 package com.example.socialmedia.mydata
 
+import androidx.lifecycle.LiveData
+
 class FollowRepository(private val followDao: FollowDao) {
 
     suspend fun insertFollow(follow: Follow) {
@@ -24,5 +26,9 @@ class FollowRepository(private val followDao: FollowDao) {
 
     suspend fun isFollowing(userId: Int, followeeId: Int): Boolean {
         return followDao.isFollowing(userId, followeeId)
+    }
+
+    fun getFollowingsByUserId(userId: Int): LiveData<List<Follow>> {
+        return followDao.getFollowingsByUserId(userId)
     }
 }
