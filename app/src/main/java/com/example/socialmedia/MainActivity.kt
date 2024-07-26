@@ -12,7 +12,7 @@ import com.example.socialmedia.ui.theme.SocialMediaTheme
 
 //Kelompok 2
 // Anggota kelompok :
-// Beben Prihartono - NIM
+// Beben Prihartono - NIM : 411211114
 // Dimas A Anindyojati - NIM : 411211117
 // Rifaldi Hafidz - NIM : 411211216
 
