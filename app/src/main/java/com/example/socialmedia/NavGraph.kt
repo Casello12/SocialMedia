@@ -98,6 +98,14 @@ fun NavGraph(
                 )
             }
 
+            composable(
+                route = "directMessage/{username}",
+                arguments = listOf(navArgument("username") { type = NavType.StringType })
+            ) { entry ->
+                val recipientUsername = entry.arguments?.getString("username")
+                DirectMessageScreen(usernameWith = recipientUsername ?: "", sharedViewModel, navController)
+            }
+
         }
     }
 }

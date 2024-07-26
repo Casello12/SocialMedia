@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.OutlinedButton
@@ -86,9 +87,9 @@ fun FollowingScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 10.dp), // Add padding to separate rows
+                            .padding(top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween // Align items to the start and end
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
                             text = "Welcome, $username",
@@ -113,10 +114,9 @@ fun FollowingScreen(
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
-
                 }
                 items(followingUsers) { user ->
-                    FollowingItem(user = user)
+                    FollowingItem(user = user, navController = navController)
                 }
             }
         }
@@ -124,7 +124,7 @@ fun FollowingScreen(
 }
 
 @Composable
-fun FollowingItem(user: User) {
+fun FollowingItem(user: User, navController: NavController) {
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -133,13 +133,20 @@ fun FollowingItem(user: User) {
         ) {
             Text(text = "Username: ${user.username}")
             user.imageUri?.let {
-                // Use Coil or any other image loading library to load the image
-                // Example with Coil:
                 coil.compose.AsyncImage(
                     model = it,
                     contentDescription = "Profile Image",
                     modifier = Modifier.size(64.dp).padding(top = 8.dp)
                 )
+            }
+            Button(
+                onClick = {
+                    // Navigate to the direct message screen with the user's username
+                    navController.navigate("directMessage/${user.username}")
+                },
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                Text(text = "Direct Message")
             }
         }
     }
