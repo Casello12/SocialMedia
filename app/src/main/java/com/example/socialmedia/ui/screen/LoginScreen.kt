@@ -83,6 +83,7 @@ fun LoginScreen(
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp),
                 fontSize = 21.sp,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold
             )
 
