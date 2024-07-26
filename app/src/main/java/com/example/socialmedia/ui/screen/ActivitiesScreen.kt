@@ -75,10 +75,6 @@ fun ActivitiesScreen(navController: NavController, sharedViewModel: SharedViewMo
                             fontSize = 21.sp,
                             color = Color.Black
                         )
-
-                        OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
-                            Text(text = "LogOut")
-                        }
                     }
                 }
                 item {

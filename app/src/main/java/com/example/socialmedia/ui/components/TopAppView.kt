@@ -39,10 +39,8 @@ fun TopAppView(navController: NavHostController, username: String?) {
                 color = if (isSystemInDarkTheme()) Color.White else Purple40,
                 fontSize = 21.sp
             )
-            IconButton(onClick = {}) {
-                Box(contentAlignment = Alignment.BottomEnd) {
-                    Icon(Icons.Filled.Send, contentDescription = "Messages")
-                }
+            OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
+                Text(text = "LogOut")
             }
         }
 

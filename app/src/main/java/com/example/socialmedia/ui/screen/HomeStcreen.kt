@@ -89,12 +89,10 @@ fun HomeScreen(navController: NavController, sharedViewModel: SharedViewModel = 
                         Text(
                             text = "Welcome, $username",
                             fontFamily = FontFamily.SansSerif,
-                            fontSize = 21.sp
+                            fontSize = 21.sp,
+                            color = Color.Black
                         )
 
-                        OutlinedButton(onClick = { navController.navigate("loginscreen") }) {
-                            Text(text = "LogOut")
-                        }
                     }
                 }
                 item {
