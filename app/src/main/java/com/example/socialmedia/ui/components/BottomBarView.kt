@@ -3,6 +3,7 @@ package com.example.socialmedia.ui.components
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,12 +24,12 @@ fun BottomBarView(navController: NavHostController) {
     )
     var selectedRoute by remember { mutableStateOf("home") }
     BottomAppBar {
-        menu.forEach {
+        menu.forEach { item ->
             NavigationBarItem(
-                selected = selectedRoute == it.route,
+                selected = selectedRoute == item.route,
                 onClick = {
-                    navController.navigate(it.route) {
-                        selectedRoute = it.route
+                    navController.navigate(item.route) {
+                        selectedRoute = item.route
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
                                 saveState = true
@@ -39,7 +40,10 @@ fun BottomBarView(navController: NavHostController) {
                     }
                 },
                 icon = {
-                    Icon(painter = painterResource(id = it.icon), contentDescription = it.title)
+                    Icon(painter = painterResource(id = item.icon), contentDescription = item.title)
+                },
+                label = {
+                    Text(text = item.title)
                 }
             )
         }
